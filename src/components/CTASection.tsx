@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Calendar, MessageCircle } from "lucide-react";
+import { useBooking } from "@/contexts/BookingContext";
 
 const CTASection = () => {
+  const { openBooking } = useBooking();
+
   return (
-    <section className="bg-section-light section-padding">
+    <section className="bg-warm-brown/5 section-padding py-24 relative overflow-hidden">
       <div className="container-narrow">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -14,30 +17,38 @@ const CTASection = () => {
           className="text-center space-y-8"
         >
           <div className="space-y-4 max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-warm-brown">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-warm-brown">
               Ready to Decode Your Numbers?
             </h2>
-            <p className="text-lg md:text-xl text-warm-gray leading-relaxed">
-              Take the first step toward clarity. Whether you're facing a 
-              major decision or simply curious about your life path, 
-              I'm here to guide you.
+            <p className="text-lg md:text-xl text-warm-gray leading-relaxed font-medium">
+              Take the first step toward clarity. Whether you're facing an important decision
+              or exploring your life path, expert guidance is just one conversation away.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="hero" size="xl">
-              <Calendar className="w-5 h-5" />
+            <Button
+              variant="hero"
+              size="xl"
+              className="shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+              onClick={openBooking}
+            >
+              <Calendar className="w-5 h-5 mr-2" />
               Schedule Your Consultation
             </Button>
-            <Button variant="heroOutline" size="xl">
-              <MessageCircle className="w-5 h-5" />
-              Quick Chat on WhatsApp
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-[#4A4238]/20 hover:bg-[#4A4238]/5 text-[#4A4238] min-w-[200px]"
+              onClick={() => window.open('https://wa.me/919560416174', '_blank')}
+            >
+              <MessageCircle className="mr-2 h-5 w-5" />
+              WhatsApp for Guidance
             </Button>
           </div>
 
-          <p className="text-sm text-warm-gray/70">
-            Initial consultations typically last 30-45 minutes. 
-            Available worldwide via video call.
+          <p className="text-sm text-warm-gray/70 font-medium">
+            Initial consultations last 30–45 minutes. Available worldwide via secure video call.
           </p>
         </motion.div>
       </div>

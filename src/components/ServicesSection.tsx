@@ -1,100 +1,126 @@
 import { motion } from "framer-motion";
 import { Sparkles, FileText, TrendingUp, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useBooking } from "@/contexts/BookingContext";
 
 const services = [
   {
     icon: Sparkles,
     title: "Personal Numerology Reading",
-    description: "Comprehensive analysis of your birth date and name to reveal life path, personality, and potential.",
-    features: ["Life Path Number Analysis", "Personal Year Forecast", "Strength & Challenge Mapping"],
+    description: "Reveal your life path, personality, and potential through your unique numbers.",
+    features: ["Life Path Analysis", "Personal Year Forecast"],
   },
   {
     icon: FileText,
-    title: "Name Correction & Optimization",
-    description: "Strategic name adjustments for individuals and businesses to enhance success vibrations.",
-    features: ["Spelling Optimization", "Business Name Creation", "Brand Alignment Check"],
+    title: "Name Correction",
+    description: "Optimize your name for success, higher vibrations, and alignment.",
+    features: ["Spelling Optimization", "Brand Alignment"],
   },
   {
     icon: TrendingUp,
     title: "Predictive Guidance",
-    description: "Year-ahead forecasts and timing analysis for major decisions and opportunities.",
-    features: ["Annual Forecast Report", "Favorable Date Selection", "Decision Timing Analysis"],
+    description: "Timing analysis to help you make major decisions with confidence.",
+    features: ["Annual Forecast", "Decision Timing"],
   },
   {
     icon: Users,
     title: "Relationship Compatibility",
-    description: "In-depth compatibility analysis for personal relationships and business partnerships.",
-    features: ["Partner Compatibility Report", "Team Dynamics Analysis", "Communication Insights"],
+    description: "Deep analysis for stronger personal and professional bonds.",
+    features: ["Compatibility Report", "Communication Insights"],
   },
 ];
 
 const ServicesSection = () => {
+  const { openBooking } = useBooking();
+
   return (
-    <section className="bg-section-light section-padding">
+    <section id="services" className="bg-section-light pb-20 pt-10 md:pb-24 md:pt-12">
       <div className="container-wide">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-2xl mx-auto mb-16"
+          className="text-center max-w-2xl mx-auto mb-12"
         >
           <p className="text-gold font-medium mb-3 tracking-wide uppercase text-sm">Expert Services</p>
-          <h2 className="text-3xl md:text-4xl font-serif font-semibold text-warm-brown mb-4">
-            Clarity Through Numbers
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-warm-brown mb-4">
+            Our Services
           </h2>
           <p className="text-lg text-warm-gray">
-            Each service is tailored to your unique numerical blueprint, 
-            delivering actionable insights for your specific situation.
+            Tailored numerology consultations to guide your life path and decisions.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group"
-            >
-              <div className="h-full bg-background rounded-2xl p-8 border border-border shadow-soft transition-all duration-300 hover:shadow-card hover:border-gold/30">
-                <div className="flex items-start gap-5">
-                  <div className="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center shrink-0 transition-colors duration-300 group-hover:bg-gold/20">
-                    <service.icon className="w-7 h-7 text-gold" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12">
+          {services.map((service, index) => {
+            const isPrimary = index === 0;
+            return (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group h-full"
+              >
+                <div
+                  className="h-full rounded-2xl p-6 md:p-8 transition-all duration-300 ease-out relative overflow-hidden flex flex-col justify-between hover:-translate-y-[2px] bg-white border-[#C9A45C]/50 shadow-lg ring-1 ring-[#C9A45C]/10"
+                >
+                  {isPrimary && (
+                    <div className="absolute top-0 right-0 bg-gold text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg tracking-wider z-10">
+                      MOST POPULAR
+                    </div>
+                  )}
+
+                  <div className="flex items-start gap-5">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-500 bg-[#C9A45C] text-white shadow-lg"
+                    >
+                      <service.icon className="w-6 h-6" />
+                    </div>
+                    <div className="space-y-3 flex-1">
+                      <h3 className="text-xl font-serif font-bold text-warm-brown group-hover:text-gold transition-colors duration-300">
+                        {service.title}
+                      </h3>
+                      <p className="text-warm-gray leading-relaxed text-sm">
+                        {service.description}
+                      </p>
+                      <ul className="space-y-2 pt-2">
+                        {service.features.map((feature) => (
+                          <li key={feature} className="flex items-center gap-2 text-sm text-warm-gray/90">
+                            <div className="w-1.5 h-1.5 rounded-full bg-gold" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                  <div className="space-y-4 flex-1">
-                    <h3 className="text-xl font-serif font-semibold text-warm-brown">
-                      {service.title}
-                    </h3>
-                    <p className="text-warm-gray leading-relaxed">
-                      {service.description}
-                    </p>
-                    <ul className="space-y-2">
-                      {service.features.map((feature) => (
-                        <li key={feature} className="flex items-center gap-2 text-sm text-warm-gray/80">
-                          <div className="w-1.5 h-1.5 rounded-full bg-gold" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
+
+                  <div className="mt-8 pl-0 md:pl-[4.25rem]">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-warm-brown border-warm-brown/20 hover:bg-gold/10 hover:text-warm-brown hover:border-gold/40 transition-all duration-300 w-full md:w-auto"
+                      onClick={openBooking}
+                    >
+                      Book Now
+                    </Button>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-12"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-center"
         >
-          <Button variant="gold" size="lg">
+          <Button size="lg" className="bg-gold hover:bg-gold/90 text-white px-8 shadow-md hover:shadow-lg transition-all duration-300">
             View All Services
           </Button>
         </motion.div>
@@ -102,5 +128,6 @@ const ServicesSection = () => {
     </section>
   );
 };
+
 
 export default ServicesSection;

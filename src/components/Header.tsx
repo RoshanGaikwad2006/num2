@@ -2,17 +2,20 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { useBooking } from "@/contexts/BookingContext";
+import Logo from "@/components/Logo";
 
 const navLinks = [
-  { name: "About", href: "#about" },
+  { name: "About", href: "/about" },
   { name: "Services", href: "#services" },
-  { name: "Process", href: "#process" },
-  { name: "Contact", href: "#contact" },
+  { name: "Tools", href: "/products" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { openBooking } = useBooking();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,21 +27,22 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-section-light/95 backdrop-blur-sm shadow-soft py-4"
-          : "bg-transparent py-6"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isMobileMenuOpen
+          ? "bg-white shadow-md py-4 border-warm-brown/10"
+          : isScrolled
+            ? "bg-white/90 backdrop-blur-md border-warm-brown/10 shadow-sm py-4"
+            : "bg-transparent border-transparent py-6"
+        }`}
     >
-      <div className="container-wide px-6 md:px-12 lg:px-20">
+      <div className="container-wide px-6 lg:px-12 xl:px-20">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="/" className="text-xl md:text-2xl font-serif font-semibold text-warm-brown">
-            Numerology Insights
+          <a href="/" className="block hover:opacity-90 transition-opacity">
+            <Logo className="h-12" />
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -48,14 +52,14 @@ const Header = () => {
                 {link.name}
               </a>
             ))}
-            <Button variant="hero" size="default">
+            <Button variant="hero" size="default" onClick={openBooking}>
               Book Now
             </Button>
           </nav>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-warm-brown"
+            className="lg:hidden p-2 text-warm-brown"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -71,7 +75,7 @@ const Header = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden"
+              className="lg:hidden overflow-hidden"
             >
               <nav className="flex flex-col gap-4 pt-6 pb-4">
                 {navLinks.map((link) => (
@@ -84,7 +88,7 @@ const Header = () => {
                     {link.name}
                   </a>
                 ))}
-                <Button variant="hero" size="default" className="mt-2">
+                <Button variant="hero" size="default" className="mt-2" onClick={() => { openBooking(); setIsMobileMenuOpen(false); }}>
                   Book Now
                 </Button>
               </nav>

@@ -1,55 +1,59 @@
 import { motion } from "framer-motion";
 import { MessageSquare, FileSearch, Presentation, Rocket } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useBooking } from "@/contexts/BookingContext";
 
 const steps = [
   {
     number: "01",
     icon: MessageSquare,
     title: "Initial Consultation",
-    description: "Share your concerns and goals. We discuss your specific situation and how numerology can help.",
+    description: "Share your goals and concerns. We discuss your situation and determine how numerology can support your decisions.",
   },
   {
     number: "02",
     icon: FileSearch,
     title: "In-Depth Analysis",
-    description: "I calculate and analyze your complete numerological profile using your birth details and name.",
+    description: "Your complete numerological profile is calculated using your birth details and name for precise insights.",
   },
   {
     number: "03",
     icon: Presentation,
     title: "Personalized Report",
-    description: "Receive a comprehensive report with actionable insights tailored to your questions.",
+    description: "Receive a clear, structured report with actionable guidance tailored to your questions.",
   },
   {
     number: "04",
     icon: Rocket,
     title: "Guided Implementation",
-    description: "Follow-up support to help you implement recommendations and track your progress.",
+    description: "Ongoing support to help you apply insights, track progress, and refine decisions.",
   },
 ];
 
 const ProcessSection = () => {
+  const { openBooking } = useBooking();
+
   return (
-    <section className="bg-section-medium section-padding">
-      <div className="container-wide">
+    <section className="bg-section-medium section-padding relative overflow-hidden">
+      <div className="container-wide relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-2xl mx-auto mb-16"
+          className="text-center max-w-2xl mx-auto mb-16 pt-8"
         >
           <p className="text-gold font-medium mb-3 tracking-wide uppercase text-sm">The Process</p>
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-warm-brown mb-4">
             How It Works
           </h2>
           <p className="text-lg text-warm-gray">
-            A structured, professional approach to numerological consultation 
+            A structured, professional approach to numerological consultation
             that respects your time and delivers clear value.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 mb-16">
           {steps.map((step, index) => (
             <motion.div
               key={step.number}
@@ -57,19 +61,29 @@ const ProcessSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative"
+              className="relative group"
             >
               {/* Connector line */}
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-16 left-[calc(50%+60px)] w-[calc(100%-60px)] h-px bg-border" />
+                <motion.div
+                  initial={{ opacity: 0, scaleX: 0 }}
+                  whileInView={{ opacity: 1, scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, delay: 0.5 + (index * 0.2), ease: "easeOut" }}
+                  className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-warm-brown/20 to-transparent origin-left z-0"
+                />
               )}
-              
-              <div className="text-center space-y-4">
+
+              <div className="text-center space-y-5 px-4 py-6 rounded-2xl transition-colors duration-500 hover:bg-warm-brown/5 relative z-10">
                 <div className="relative inline-block">
-                  <div className="w-20 h-20 rounded-2xl bg-section-light border border-border shadow-soft flex items-center justify-center mx-auto">
-                    <step.icon className="w-8 h-8 text-gold" />
-                  </div>
-                  <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-warm-brown text-section-light text-sm font-semibold flex items-center justify-center">
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="w-20 h-20 rounded-2xl bg-section-light border border-border shadow-soft flex items-center justify-center mx-auto transition-shadow duration-300 group-hover:shadow-card group-hover:border-gold/30"
+                  >
+                    <step.icon className="w-8 h-8 text-gold transition-transform duration-300 group-hover:scale-110" />
+                  </motion.div>
+                  <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-warm-brown text-section-light text-sm font-semibold flex items-center justify-center shadow-md">
                     {step.number}
                   </span>
                 </div>
@@ -83,6 +97,26 @@ const ProcessSection = () => {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center"
+        >
+          <Button
+            variant="hero"
+            size="xl"
+            className="group shadow-elevated hover:shadow-xl transition-all duration-300"
+            onClick={openBooking}
+          >
+            Book Your Consultation
+          </Button>
+          <p className="mt-4 text-sm text-warm-gray/80 font-medium">
+            Consultations available worldwide via video call.
+          </p>
+        </motion.div>
       </div>
     </section>
   );
